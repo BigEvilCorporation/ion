@@ -5,20 +5,17 @@
         <div class="content-wrapper">
             <hgroup class="title">
                 <h1><%: Title %>.</h1>
-                <h2>Modify this template to jump-start your ASP.NET application.</h2>
+                <h2>ion::code</h2>
             </hgroup>
             <p>
-                To learn more about ASP.NET, visit <a href="http://asp.net" title="ASP.NET Website">http://asp.net</a>.
-                The page features <mark>videos, tutorials, and samples</mark> to help you get the most from ASP.NET.
-                If you have any questions about ASP.NET visit
-                <a href="http://forums.asp.net/18.aspx" title="ASP.NET Forum">our forums</a>.
-            </p>
+                A teeny tiny assembly language for making teeny tiny 2D games</p>
         </div>
     </section>
 </asp:Content>
 <asp:Content runat="server" ID="BodyContent" ContentPlaceHolderID="MainContent">
-    <asp:TextBox ID="txtEditor" runat="server" Height="450px" MaxLength="140" OnTextChanged="txtEditor_TextChanged" TextMode="MultiLine" Width="733px"></asp:TextBox>
+    <asp:TextBox ID="txtSourceCode" runat="server" Height="450px" MaxLength="140" OnTextChanged="txtEditor_TextChanged" TextMode="MultiLine" Width="733px"></asp:TextBox>
     <asp:GridView ID="gridMemory" runat="server" OnSelectedIndexChanged="gridMemory_SelectedIndexChanged" ShowHeader="False">
     </asp:GridView>
-    <asp:Button ID="btnCompile" runat="server" OnClick="btnCompile_Click" Text="Compile and Run" />
+    <asp:Button ID="btnCompile" runat="server" OnClick="btnCompile_Click" Text="Compile" />
+    <asp:Button ID="btnExecute" runat="server" OnClick="btnExecute_Click" Text="Execute" />
 </asp:Content>

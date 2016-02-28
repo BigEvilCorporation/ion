@@ -311,6 +311,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="ion\ion_asm.cs" />
+    <Compile Include="ion\ion_core.cs" />
+    <Compile Include="ion\ion_vm.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Site.Master.cs">
       <DependentUpon>Site.Master</DependentUpon>
