@@ -402,17 +402,22 @@ fieldset {
 
     input, textarea {
         border: 1px solid #e2e2e2;
-        background: #fff;
-        color: #333;
-        font-size: 1.2em;
-        margin: 5px 0 6px 0;
-        padding: 5px;
-        }
+        backgro
 
     textarea {
         font-family: inherit;
+        top: 349px;
+    left: 79px;
+    right: 581px;
+}
+    
+        it;
         width: 500px;
-    }
+    top: 290px;
+    left: 19px;
+    position: absolute;
+    right: 641px;
+}
     
         input:focus, textarea:focus {
             border: 1px solid #7ac0da;
@@ -434,8 +439,11 @@ fieldset {
         font-weight: 600;
         padding: 7px;
         margin-right: 8px;
-        width: auto;
-    }
+        width: 117px;
+    top: 665px;
+    left: 894px;
+    height: 52px;
+}
 
     td input[type="submit"],
     td input[type="button"],
@@ -509,7 +517,9 @@ table {
     border-spacing: 0;
     margin-top: 0.75em;
     margin-bottom: 0px;
-}
+    top: 356px;
+    left: 968px;
+    }
 
 th {
 	font-size: 1.2em;

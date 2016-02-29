@@ -35,3 +35,40 @@ C:\Users\Matt\documents\visual studio 2013\Projects\ion\ion\bin\Microsoft.AspNet
 C:\Users\Matt\documents\visual studio 2013\Projects\ion\ion\obj\Debug\ion.csprojResolveAssemblyReference.cache
 C:\Users\Matt\documents\visual studio 2013\Projects\ion\ion\obj\Debug\ion.dll
 C:\Users\Matt\documents\visual studio 2013\Projects\ion\ion\obj\Debug\ion.pdb
+D:\Work\BigEvilCorporation\Repositories\github\ion\ion_asm\ion\bin\ion.dll.config
+D:\Work\BigEvilCorporation\Repositories\github\ion\ion_asm\ion\bin\ion.dll
+D:\Work\BigEvilCorporation\Repositories\github\ion\ion_asm\ion\bin\ion.pdb
+D:\Work\BigEvilCorporation\Repositories\github\ion\ion_asm\ion\bin\Antlr3.Runtime.dll
+D:\Work\BigEvilCorporation\Repositories\github\ion\ion_asm\ion\bin\AspNet.ScriptManager.jQuery.dll
+D:\Work\BigEvilCorporation\Repositories\github\ion\ion_asm\ion\bin\AspNet.ScriptManager.jQuery.UI.Combined.dll
+D:\Work\BigEvilCorporation\Repositories\github\ion\ion_asm\ion\bin\DotNetOpenAuth.AspNet.dll
+D:\Work\BigEvilCorporation\Repositories\github\ion\ion_asm\ion\bin\DotNetOpenAuth.Core.dll
+D:\Work\BigEvilCorporation\Repositories\github\ion\ion_asm\ion\bin\DotNetOpenAuth.OAuth.Consumer.dll
+D:\Work\BigEvilCorporation\Repositories\github\ion\ion_asm\ion\bin\DotNetOpenAuth.OAuth.dll
+D:\Work\BigEvilCorporation\Repositories\github\ion\ion_asm\ion\bin\DotNetOpenAuth.OpenId.dll
+D:\Work\BigEvilCorporation\Repositories\github\ion\ion_asm\ion\bin\DotNetOpenAuth.OpenId.RelyingParty.dll
+D:\Work\BigEvilCorporation\Repositories\github\ion\ion_asm\ion\bin\EntityFramework.dll
+D:\Work\BigEvilCorporation\Repositories\github\ion\ion_asm\ion\bin\EntityFramework.SqlServer.dll
+D:\Work\BigEvilCorporation\Repositories\github\ion\ion_asm\ion\bin\Microsoft.AspNet.FriendlyUrls.dll
+D:\Work\BigEvilCorporation\Repositories\github\ion\ion_asm\ion\bin\Microsoft.AspNet.Membership.OpenAuth.dll
+D:\Work\BigEvilCorporation\Repositories\github\ion\ion_asm\ion\bin\Microsoft.AspNet.Web.Optimization.WebForms.dll
+D:\Work\BigEvilCorporation\Repositories\github\ion\ion_asm\ion\bin\Microsoft.ScriptManager.MSAjax.dll
+D:\Work\BigEvilCorporation\Repositories\github\ion\ion_asm\ion\bin\Microsoft.ScriptManager.WebForms.dll
+D:\Work\BigEvilCorporation\Repositories\github\ion\ion_asm\ion\bin\Microsoft.Web.Infrastructure.dll
+D:\Work\BigEvilCorporation\Repositories\github\ion\ion_asm\ion\bin\System.Web.Optimization.dll
+D:\Work\BigEvilCorporation\Repositories\github\ion\ion_asm\ion\bin\System.Web.Providers.dll
+D:\Work\BigEvilCorporation\Repositories\github\ion\ion_asm\ion\bin\WebGrease.dll
+D:\Work\BigEvilCorporation\Repositories\github\ion\ion_asm\ion\bin\EntityFramework.xml
+D:\Work\BigEvilCorporation\Repositories\github\ion\ion_asm\ion\bin\EntityFramework.SqlServer.xml
+D:\Work\BigEvilCorporation\Repositories\github\ion\ion_asm\ion\bin\System.Web.Providers.xml
+D:\Work\BigEvilCorporation\Repositories\github\ion\ion_asm\ion\bin\DotNetOpenAuth.Core.xml
+D:\Work\BigEvilCorporation\Repositories\github\ion\ion_asm\ion\bin\DotNetOpenAuth.OAuth.xml
+D:\Work\BigEvilCorporation\Repositories\github\ion\ion_asm\ion\bin\DotNetOpenAuth.OAuth.Consumer.xml
+D:\Work\BigEvilCorporation\Repositories\github\ion\ion_asm\ion\bin\DotNetOpenAuth.OpenId.xml
+D:\Work\BigEvilCorporation\Repositories\github\ion\ion_asm\ion\bin\DotNetOpenAuth.OpenId.RelyingParty.xml
+D:\Work\BigEvilCorporation\Repositories\github\ion\ion_asm\ion\bin\DotNetOpenAuth.AspNet.xml
+D:\Work\BigEvilCorporation\Repositories\github\ion\ion_asm\ion\bin\Microsoft.AspNet.Membership.OpenAuth.xml
+D:\Work\BigEvilCorporation\Repositories\github\ion\ion_asm\ion\bin\Microsoft.AspNet.FriendlyUrls.xml
+D:\Work\BigEvilCorporation\Repositories\github\ion\ion_asm\ion\obj\Debug\ion.csprojResolveAssemblyReference.cache
+D:\Work\BigEvilCorporation\Repositories\github\ion\ion_asm\ion\obj\Debug\ion.dll
+D:\Work\BigEvilCorporation\Repositories\github\ion\ion_asm\ion\obj\Debug\ion.pdb

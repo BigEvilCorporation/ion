@@ -27,6 +27,17 @@ namespace ion
 			//Retrieve session
 			m_byteCode = (List<Core.Instruction>)Session["Bytecode"];
 
+			if(m_byteCode == null)
+			{
+				//No bytecode, disable 'execute' button
+				btnExecute.Enabled = false;
+			}
+			else
+			{
+				//Enable 'execute' button
+				btnExecute.Enabled = true;
+			}
+
 			memoryDataTable = new DataTable();
 
 			int memoryTableSizeSqrt = (int)Math.Sqrt(m_vmMemorySizeBytes);
@@ -83,11 +94,32 @@ namespace ion
 			//Create assembler
 			Assembler assembler = new Assembler();
 
-			//Assemble source to bytecode
-			m_byteCode = assembler.Assemble(txtSourceCode.Text);
+			//Create log
+			List<string> log;
+			txtAssembleLog.Text = "";
 
-			//Store in session
-			Session["Bytecode"] = m_byteCode;
+			//Assemble source to bytecode
+			int numErrors = assembler.Assemble(txtSourceCode.Text, out m_byteCode, out log);
+
+			if (numErrors == 0)
+			{
+				//Store in session
+				Session["Bytecode"] = m_byteCode;
+
+				//Make 'execute' button available
+				btnExecute.Enabled = true;
+			}
+			else
+			{
+				//Assembly error, disable 'execute' button
+				btnExecute.Enabled = false;
+			}
+
+			//Dump log
+			foreach (String line in log)
+			{
+				txtAssembleLog.Text += line + '\n';
+			}
 		}
 
 		protected void btnExecute_Click(object sender, EventArgs e)

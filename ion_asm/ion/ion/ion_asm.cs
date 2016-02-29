@@ -16,60 +16,102 @@ namespace ion
 		//Currently assembling instruction
 		private int m_parsingExpression = 0;
 
-		public List<Core.Instruction> Assemble(string source)
+		//Error count
+		private int m_errorCount;
+
+		//Log
+		List<string> m_log;
+
+		public int Assemble(string source, out List<Core.Instruction> byteCode, out List<string> log)
 		{
 			m_instructions = new List<Core.Instruction>();
+			m_log = new List<string>();
 			m_parsingExpression = 0;
+			m_errorCount = 0;
 
 			string[] expressions = source.Split(expressionSeparators);
 
 			foreach (string expression in expressions)
 			{
-				AssembleExpression(expression);
+				string strippedExpression = SanitiseExpression(expression);
+				AssembleExpression(strippedExpression);
 				m_parsingExpression++;
 			}
 
-			CompileMessage("Finished.");
+			if (m_errorCount > 0)
+			{
+				AssembleMessage(String.Format("Failed with {0} errors.", m_errorCount));
+				byteCode = null;
+			}
+			else
+			{
+				AssembleMessage(String.Format("Finished. Assembled {0} instructions.", m_instructions.Count()));
+				byteCode = m_instructions;
+			}
 
-			return m_instructions;
+			log = m_log;
+
+			return m_errorCount;
 		}
 
-		protected bool InterpretExpression(string expression, string error)
+		protected void AssembleMessage(string messageText)
 		{
-			return false;
+			m_log.Add(messageText);
 		}
 
-		protected void CompileMessage(string messageText)
+		protected void AssembleError(string errorText)
 		{
-
+			m_log.Add(errorText);
+			m_errorCount++;
 		}
 
-		protected void CompileError(string errorText)
+		protected string SanitiseExpression(string expression)
 		{
+			if(expression.Count() > 0)
+			{
+				//Strip comments
+				int commentPos = expression.IndexOf('/');
+				if (commentPos >= 0)
+					expression = expression.Remove(commentPos);
 
+				//Strip whitespace
+				expression = expression.Replace(' ', '\0');
+				expression = expression.Replace('\t', '\0');
+			}
+
+			return expression;
 		}
 
 		protected void AssembleExpression(string expression)
 		{
-			switch (expression[0])
+			if (expression.Count() > 0)
 			{
-				case 'M':
-					//MOVE
-					ParseMove(expression.Substring(1));
-					break;
-				case 'A':
-					//ADD
-					ParseAdd(expression.Substring(1));
-					break;
-				case 'S':
-					//SUBTRACT
-					break;
-				case 'I':
-					//If
-					break;
-				case 'J':
-					//JUMP
-					break;
+				switch (expression[0])
+				{
+					case '/':
+						//Comment
+						break;
+					case 'M':
+						//MOVE
+						ParseMove(expression.Substring(1));
+						break;
+					case 'A':
+						//ADD
+						ParseAdd(expression.Substring(1));
+						break;
+					case 'S':
+						//SUBTRACT
+						ParseSub(expression.Substring(1));
+						break;
+					case 'I':
+						//If
+						break;
+					case 'J':
+						//JUMP
+						break;
+					default:
+						break;
+				}
 			}
 		}
 
@@ -78,10 +120,10 @@ namespace ion
 			string[] tokens = expression.Split(',');
 
 			int numParamsProvided = tokens.Count();
-			int numParamsRequired_REG_REG = Enum.GetNames(typeof(Core.OpParamsMOV_REG_REG)).Count();
-			int numParamsRequired_LIT_REG = Enum.GetNames(typeof(Core.OpParamsMOV_LIT_REG)).Count();
+			int numParamsRequiredRegReg = Enum.GetNames(typeof(Core.OpParamsSourceDest)).Count();
+			int numParamsRequiredLitReg = Enum.GetNames(typeof(Core.OpParamsSourceDest)).Count();
 
-			if (numParamsProvided == numParamsRequired_REG_REG || numParamsProvided == numParamsRequired_LIT_REG)
+			if (numParamsProvided == numParamsRequiredRegReg || numParamsProvided == numParamsRequiredLitReg)
 			{
 				Core.Instruction instruction = new Core.Instruction();
 				Core.ParamType sourceParamType;
@@ -89,31 +131,31 @@ namespace ion
 				//Parse source param
 				if (!ParseSourceParam(tokens[0], out instruction.parameters[0], out sourceParamType))
 				{
-					CompileError(String.Format("MOV - Error parsing parameter 0"));
+					AssembleError(String.Format("MOV - Error parsing parameter 0"));
 				}
 
 				//Parse dest param
 				if (!int.TryParse(tokens[1], out instruction.parameters[1]))
 				{
-					CompileError(String.Format("MOV - Error parsing parameter 1"));
+					AssembleError(String.Format("MOV - Error parsing parameter 1"));
 				}
 
-				if (sourceParamType == Core.ParamType.PARAM_REGISTER)
+				if (sourceParamType == Core.ParamType.Register)
 				{
 					//Register to register MOV
-					instruction.opcode = (byte)Core.Opcodes.OP_MOV_REG_REG;
+					instruction.opcode = (byte)Core.Opcodes.MoveRegReg;
 				}
-				else if (sourceParamType == Core.ParamType.PARAM_LITERAL)
+				else if (sourceParamType == Core.ParamType.Literal)
 				{
 					//Literal to register MOV
-					instruction.opcode = (byte)Core.Opcodes.OP_MOV_LIT_REG;
+					instruction.opcode = (byte)Core.Opcodes.MoveLitReg;
 				}
 
 				m_instructions.Add(instruction);
 			}
 			else
 			{
-				CompileError(String.Format("MOV - Instruction takes {0} parameters, not {1}", numParamsRequired_REG_REG, numParamsProvided));
+				AssembleError(String.Format("MOV - Instruction takes {0} parameters, not {1}", numParamsRequiredRegReg, numParamsProvided));
 			}
 		}
 
@@ -122,10 +164,10 @@ namespace ion
 			string[] tokens = expression.Split(',');
 
 			int numParamsProvided = tokens.Count();
-			int numParamsRequired_REG_REG = Enum.GetNames(typeof(Core.OpParamsADD_REG_REG)).Count();
-			int numParamsRequired_LIT_REG = Enum.GetNames(typeof(Core.OpParamsADD_LIT_REG)).Count();
+			int numParamsRequiredRegReg = Enum.GetNames(typeof(Core.OpParamsSourceDest)).Count();
+			int numParamsRequiredLitReg = Enum.GetNames(typeof(Core.OpParamsSourceDest)).Count();
 
-			if (numParamsProvided == numParamsRequired_REG_REG || numParamsProvided == numParamsRequired_LIT_REG)
+			if (numParamsProvided == numParamsRequiredRegReg || numParamsProvided == numParamsRequiredLitReg)
 			{
 				Core.Instruction instruction = new Core.Instruction();
 				Core.ParamType sourceParamType;
@@ -133,31 +175,75 @@ namespace ion
 				//Parse source param
 				if (!ParseSourceParam(tokens[0], out instruction.parameters[0], out sourceParamType))
 				{
-					CompileError(String.Format("ADD - Error parsing parameter 0"));
+					AssembleError(String.Format("ADD - Error parsing parameter 0"));
 				}
 
 				//Parse dest param
 				if (!int.TryParse(tokens[1], out instruction.parameters[1]))
 				{
-					CompileError(String.Format("ADD - Error parsing parameter 1"));
+					AssembleError(String.Format("ADD - Error parsing parameter 1"));
 				}
 
-				if (sourceParamType == Core.ParamType.PARAM_REGISTER)
+				if (sourceParamType == Core.ParamType.Register)
 				{
 					//Register to register ADD
-					instruction.opcode = (byte)Core.Opcodes.OP_ADD_REG_REG;
+					instruction.opcode = (byte)Core.Opcodes.AddRegReg;
 				}
-				else if (sourceParamType == Core.ParamType.PARAM_LITERAL)
+				else if (sourceParamType == Core.ParamType.Literal)
 				{
 					//Literal to register ADD
-					instruction.opcode = (byte)Core.Opcodes.OP_ADD_LIT_REG;
+					instruction.opcode = (byte)Core.Opcodes.AddLitReg;
 				}
 
 				m_instructions.Add(instruction);
 			}
 			else
 			{
-				CompileError(String.Format("ADD - Instruction takes {0} parameters, not {1}", numParamsRequired_REG_REG, numParamsProvided));
+				AssembleError(String.Format("ADD - Instruction takes {0} parameters, not {1}", numParamsRequiredRegReg, numParamsProvided));
+			}
+		}
+
+		unsafe protected void ParseSub(string expression)
+		{
+			string[] tokens = expression.Split(',');
+
+			int numParamsProvided = tokens.Count();
+			int numParamsRequiredRegReg = Enum.GetNames(typeof(Core.OpParamsSourceDest)).Count();
+			int numParamsRequiredLitReg = Enum.GetNames(typeof(Core.OpParamsSourceDest)).Count();
+
+			if (numParamsProvided == numParamsRequiredRegReg || numParamsProvided == numParamsRequiredLitReg)
+			{
+				Core.Instruction instruction = new Core.Instruction();
+				Core.ParamType sourceParamType;
+
+				//Parse source param
+				if (!ParseSourceParam(tokens[0], out instruction.parameters[0], out sourceParamType))
+				{
+					AssembleError(String.Format("SUB - Error parsing parameter 0"));
+				}
+
+				//Parse dest param
+				if (!int.TryParse(tokens[1], out instruction.parameters[1]))
+				{
+					AssembleError(String.Format("SUB - Error parsing parameter 1"));
+				}
+
+				if (sourceParamType == Core.ParamType.Register)
+				{
+					//Register to register SUB
+					instruction.opcode = (byte)Core.Opcodes.SubRegReg;
+				}
+				else if (sourceParamType == Core.ParamType.Literal)
+				{
+					//Literal to register SUB
+					instruction.opcode = (byte)Core.Opcodes.SubLitReg;
+				}
+
+				m_instructions.Add(instruction);
+			}
+			else
+			{
+				AssembleError(String.Format("ADD - Instruction takes {0} parameters, not {1}", numParamsRequiredRegReg, numParamsProvided));
 			}
 		}
 
@@ -166,13 +252,13 @@ namespace ion
 			if (param[0] == '#')
 			{
 				//Literal number
-				paramType = Core.ParamType.PARAM_LITERAL;
+				paramType = Core.ParamType.Literal;
 				return int.TryParse(param.Substring(1), out number);
 			}
 			else
 			{
 				//Register
-				paramType = Core.ParamType.PARAM_REGISTER;
+				paramType = Core.ParamType.Register;
 				return int.TryParse(param, out number);
 			}
 		}

@@ -40,34 +40,34 @@ namespace ion
 		{
 			switch (instruction.opcode)
 			{
-				case (byte)Core.Opcodes.OP_MOV_REG_REG:
+				case (byte)Core.Opcodes.MoveRegReg:
 					{
 						int value = 0;
-						uint sourceAddress = (uint)instruction.parameters[(int)Core.OpParamsMOV_REG_REG.OP_MOV_SOURCE];
-						uint destAddress = (uint)instruction.parameters[(int)Core.OpParamsMOV_REG_REG.OP_MOV_DEST];
+						uint sourceAddress = (uint)instruction.parameters[(int)Core.OpParamsSourceDest.Source];
+						uint destAddress = (uint)instruction.parameters[(int)Core.OpParamsSourceDest.Dest];
 						Load(sourceAddress, out value);
 						Store(destAddress, value);
 						break;
 					}
 
 
-				case (byte)Core.Opcodes.OP_MOV_LIT_REG:
+				case (byte)Core.Opcodes.MoveLitReg:
 					{
-						int value = (int)instruction.parameters[(int)Core.OpParamsMOV_REG_REG.OP_MOV_SOURCE];
-						uint destAddress = (uint)instruction.parameters[(int)Core.OpParamsMOV_REG_REG.OP_MOV_DEST];
+						int value = (int)instruction.parameters[(int)Core.OpParamsSourceDest.Source];
+						uint destAddress = (uint)instruction.parameters[(int)Core.OpParamsSourceDest.Dest];
 						Store(destAddress, value);
 						break;
 					}
 
-				case (byte)Core.Opcodes.OP_ADD_REG_REG:
+				case (byte)Core.Opcodes.AddRegReg:
 					{
 						int valueA = 0;
 						int valueB = 0;
 						int valueC = 0;
 
 						//Get addresses
-						uint addressA = (uint)instruction.parameters[(int)Core.OpParamsADD_REG_REG.OP_MOV_SOURCE];
-						uint addressB = (uint)instruction.parameters[(int)Core.OpParamsADD_REG_REG.OP_MOV_DEST];
+						uint addressA = (uint)instruction.parameters[(int)Core.OpParamsSourceDest.Source];
+						uint addressB = (uint)instruction.parameters[(int)Core.OpParamsSourceDest.Dest];
 
 						//Load values from addresses
 						Load(addressA, out valueA);
@@ -82,21 +82,65 @@ namespace ion
 					}
 
 
-				case (byte)Core.Opcodes.OP_ADD_LIT_REG:
+				case (byte)Core.Opcodes.AddLitReg:
 					{
 						//Get value A
-						int valueA = (int)instruction.parameters[(int)Core.OpParamsADD_REG_REG.OP_MOV_SOURCE];
+						int valueA = (int)instruction.parameters[(int)Core.OpParamsSourceDest.Source];
 						int valueB = 0;
 						int valueC = 0;
 
 						//Get address
-						uint address = (uint)instruction.parameters[(int)Core.OpParamsADD_REG_REG.OP_MOV_DEST];
+						uint address = (uint)instruction.parameters[(int)Core.OpParamsSourceDest.Dest];
 
 						//Get value B from address
 						Load(address, out valueB);
 
 						//Add
 						valueC = valueA + valueB;
+
+						//Store result
+						Store(address, valueC);
+						break;
+					}
+
+				case (byte)Core.Opcodes.SubRegReg:
+					{
+						int valueA = 0;
+						int valueB = 0;
+						int valueC = 0;
+
+						//Get addresses
+						uint addressA = (uint)instruction.parameters[(int)Core.OpParamsSourceDest.Source];
+						uint addressB = (uint)instruction.parameters[(int)Core.OpParamsSourceDest.Dest];
+
+						//Load values from addresses
+						Load(addressA, out valueA);
+						Load(addressB, out valueB);
+
+						//Sub
+						valueC = valueB - valueA;
+
+						//Store result
+						Store(addressB, valueC);
+						break;
+					}
+
+
+				case (byte)Core.Opcodes.SubLitReg:
+					{
+						//Get value A
+						int valueA = (int)instruction.parameters[(int)Core.OpParamsSourceDest.Source];
+						int valueB = 0;
+						int valueC = 0;
+
+						//Get address
+						uint address = (uint)instruction.parameters[(int)Core.OpParamsSourceDest.Dest];
+
+						//Get value B from address
+						Load(address, out valueB);
+
+						//Sub
+						valueC = valueB - valueA;
 
 						//Store result
 						Store(address, valueC);
